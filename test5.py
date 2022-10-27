@@ -29,7 +29,7 @@ Date_tt id_tt summa rn
 """
 
 numerate_rows_sql = """
-SELECT date_tt, id_tt, summa, ROW_NUMBER() OVER(PARTITION BY id_tt ORDER BY id_tt)
+SELECT date_tt, id_tt, summa, ROW_NUMBER() OVER(PARTITION BY id_tt ORDER BY id_tt) as "rn"
 FROM dt;
 """
 
@@ -48,7 +48,7 @@ qty int - количество проданного )
 """
 
 newest_products_sql = """
-SELECT DISTINCT(it_tov) FROM ddt WHERE DATE_PART('day', current_date - ddt.date_tt) <= 30;
+SELECT DISTINCT(id_tov) FROM dtt WHERE id_tov not in (SELECT id_tov FROM dtt WHERE (current_date - dtt.date_tt) > 30);
 """
 
 # DISTINCT > товар с одним id может встретиться в нескольких магазинах (id_tt), поскольку нас интересует конкретный id и мы гарантируем,
